@@ -7,7 +7,7 @@ mostrarApp();
 
 function login(){
 
-let pin = document.getElementById("pin").value;
+let pin=document.getElementById("pin").value;
 
 fetch(API,{
 method:"POST",
@@ -57,22 +57,20 @@ action:"sesiones"
 .then(r=>r.json())
 .then(data=>{
 
-let select = document.getElementById("sesion");
+let select=document.getElementById("sesion");
 
-select.innerHTML="";
+select.innerHTML='<option value="">Seleccione sesión</option>';
 
 data.forEach(s=>{
 
-let op = document.createElement("option");
+let op=document.createElement("option");
 
-op.value = s.fecha;
-op.text = s.nombre + " ("+s.fecha+")";
+op.value=s.fecha;
+op.text=s.nombre+" ("+s.fecha+")";
 
 select.appendChild(op);
 
 });
-
-cargarAsistencia();
 
 });
 
@@ -91,13 +89,13 @@ action:"grupos"
 .then(r=>r.json())
 .then(data=>{
 
-let select = document.getElementById("grupo");
+let select=document.getElementById("grupo");
 
-select.innerHTML="";
+select.innerHTML='<option value="">Seleccione grupo</option>';
 
 data.forEach(g=>{
 
-let op = document.createElement("option");
+let op=document.createElement("option");
 
 op.value=g;
 op.text=g;
@@ -112,14 +110,27 @@ select.appendChild(op);
 
 /* EVENTOS */
 
-document.getElementById("sesion").addEventListener("change",cargarAsistencia);
-document.getElementById("grupo").addEventListener("change",cargarAsistencia);
+document.getElementById("sesion").addEventListener("change",verificarDatos);
+document.getElementById("grupo").addEventListener("change",verificarDatos);
+
+function verificarDatos(){
+
+let sesion=document.getElementById("sesion").value;
+let grupo=document.getElementById("grupo").value;
+
+if(!sesion || !grupo){
+return;
+}
+
+cargarAsistencia();
+
+}
 
 /* CARGAR ASISTENCIA */
 
 function cargarAsistencia(){
 
-let fecha = document.getElementById("sesion").value;
+let fecha=document.getElementById("sesion").value;
 
 fetch(API,{
 method:"POST",
@@ -131,16 +142,18 @@ fecha:fecha
 .then(r=>r.json())
 .then(data=>{
 
-let grupo = document.getElementById("grupo").value;
+let grupo=document.getElementById("grupo").value;
 
 if(data[grupo]){
 
 document.getElementById("cantidad").value=data[grupo];
+
 document.getElementById("guardarBtn").innerText="ACTUALIZAR";
 
 }else{
 
 document.getElementById("cantidad").value="";
+
 document.getElementById("guardarBtn").innerText="GUARDAR";
 
 }
@@ -153,19 +166,26 @@ document.getElementById("guardarBtn").innerText="GUARDAR";
 
 function guardar(){
 
-let grupo = document.getElementById("grupo").value;
-let fecha = document.getElementById("sesion").value;
-let cantidad = document.getElementById("cantidad").value;
+let grupo=document.getElementById("grupo").value;
+let fecha=document.getElementById("sesion").value;
+let cantidad=document.getElementById("cantidad").value;
 
-let hoy = new Date();
+if(!grupo || !fecha){
 
-let dia = String(hoy.getDate()).padStart(2,'0');
-let mes = String(hoy.getMonth()+1).padStart(2,'0');
-let anio = hoy.getFullYear();
+alert("Seleccione sesión y grupo");
+return;
 
-let fechaHoy = dia+"/"+mes+"/"+anio;
+}
 
-if(fecha !== fechaHoy){
+let hoy=new Date();
+
+let dia=String(hoy.getDate()).padStart(2,'0');
+let mes=String(hoy.getMonth()+1).padStart(2,'0');
+let anio=hoy.getFullYear();
+
+let fechaHoy=dia+"/"+mes+"/"+anio;
+
+if(fecha!==fechaHoy){
 
 alert("Solo se puede registrar asistencia en la sesión de hoy");
 return;
@@ -184,12 +204,17 @@ cantidad:cantidad
 .then(r=>r.json())
 .then(data=>{
 
+if(data.status==="error"){
+
+alert(data.mensaje);
+return;
+
+}
+
 alert("Datos guardados correctamente");
 
-/* LIMPIAR CAMPO */
-document.getElementById("cantidad").value="";
-
 /* RECARGAR DATOS */
+
 cargarAsistencia();
 
 });
