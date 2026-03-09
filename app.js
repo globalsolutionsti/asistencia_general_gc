@@ -1,4 +1,4 @@
-const API = "TU_URL_APPS_SCRIPT_AQUI";
+const API = "https://script.google.com/macros/s/AKfycbzhc9YUnKAGs63h1KLjIMUYFXmkGyjxqNjCS4xCHTnv-3Kicp99W70S-Ct33CEgyjkk/exec";
 
 let pinGuardado = localStorage.getItem("pin");
 
