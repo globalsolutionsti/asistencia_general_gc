@@ -1,14 +1,10 @@
-const API = "https://script.google.com/macros/s/AKfycbx3W9IwoJCq7FyaGsJDTZCFf39zPcX8DPREdijP6Kz-5KFvblVsG_Hy052H9Q-JL_Xz/exec";
+const API = "https://script.google.com/macros/s/AKfycbyLT8WVC_bImqgG9-SzYs3Fqj1CCGXjg8kTfpxSUsRVkqo370D2V1oy7NQjsCI6ZQc/exec";
 
 let pinGuardado = localStorage.getItem("pin");
 
 if(pinGuardado){
-
 mostrarApp();
-
 }
-
-
 
 function login(){
 
@@ -17,12 +13,9 @@ let pin = document.getElementById("pin").value;
 fetch(API,{
 method:"POST",
 body:JSON.stringify({
-
 action:"login",
 pin:pin
-
 })
-
 })
 .then(r=>r.json())
 .then(data=>{
@@ -30,7 +23,6 @@ pin:pin
 if(data.valid){
 
 localStorage.setItem("pin",pin);
-
 mostrarApp();
 
 }else{
@@ -43,8 +35,6 @@ alert("PIN incorrecto");
 
 }
 
-
-
 function mostrarApp(){
 
 document.getElementById("loginBox").style.display="none";
@@ -55,31 +45,28 @@ cargarGrupos();
 
 }
 
-
+/* SESIONES */
 
 function cargarSesiones(){
 
 fetch(API,{
 method:"POST",
 body:JSON.stringify({
-
 action:"sesiones"
-
 })
 })
 .then(r=>r.json())
 .then(data=>{
 
 let select = document.getElementById("sesion");
-
 select.innerHTML="";
 
-data.sesiones.forEach(s=>{
+data.forEach(s=>{
 
 let op = document.createElement("option");
 
 op.value = s.fecha;
-op.text = s.nombre + " ("+s.fecha+")";
+op.text = s.nombre+" ("+s.fecha+")";
 
 select.appendChild(op);
 
@@ -91,23 +78,20 @@ cargarAsistencia();
 
 }
 
-
+/* GRUPOS */
 
 function cargarGrupos(){
 
 fetch(API,{
 method:"POST",
 body:JSON.stringify({
-
 action:"grupos"
-
 })
 })
 .then(r=>r.json())
 .then(data=>{
 
 let select = document.getElementById("grupo");
-
 select.innerHTML="";
 
 data.forEach(g=>{
@@ -125,11 +109,11 @@ select.appendChild(op);
 
 }
 
-
+/* CAMBIO SESION */
 
 document.getElementById("sesion").addEventListener("change",cargarAsistencia);
 
-
+/* CARGAR ASISTENCIA */
 
 function cargarAsistencia(){
 
@@ -138,10 +122,8 @@ let fecha = document.getElementById("sesion").value;
 fetch(API,{
 method:"POST",
 body:JSON.stringify({
-
 action:"asistencia",
 fecha:fecha
-
 })
 })
 .then(r=>r.json())
@@ -151,14 +133,12 @@ let grupo = document.getElementById("grupo").value;
 
 if(data[grupo]){
 
-document.getElementById("cantidad").value = data[grupo];
-
+document.getElementById("cantidad").value=data[grupo];
 document.getElementById("guardarBtn").innerText="Actualizar";
 
 }else{
 
 document.getElementById("cantidad").value="";
-
 document.getElementById("guardarBtn").innerText="Guardar";
 
 }
@@ -167,7 +147,7 @@ document.getElementById("guardarBtn").innerText="Guardar";
 
 }
 
-
+/* GUARDAR */
 
 function guardar(){
 
@@ -175,9 +155,11 @@ let grupo = document.getElementById("grupo").value;
 let fecha = document.getElementById("sesion").value;
 let cantidad = document.getElementById("cantidad").value;
 
-if(cantidad==""){
+let hoy = new Date().toISOString().split("T")[0];
 
-alert("Ingrese asistencia");
+if(fecha !== hoy){
+
+alert("Solo se puede registrar asistencia en la sesión de hoy");
 return;
 
 }
@@ -185,20 +167,23 @@ return;
 fetch(API,{
 method:"POST",
 body:JSON.stringify({
-
 action:"guardar",
 grupo:grupo,
 fecha:fecha,
 cantidad:cantidad
-
 })
 })
 .then(r=>r.json())
 .then(data=>{
 
-alert("Datos guardados");
+if(data.status==="error"){
 
-document.getElementById("cantidad").value="";
+alert(data.mensaje);
+return;
+
+}
+
+alert("Datos guardados correctamente");
 
 });
 
