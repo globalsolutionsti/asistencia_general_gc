@@ -155,9 +155,15 @@ let grupo = document.getElementById("grupo").value;
 let fecha = document.getElementById("sesion").value;
 let cantidad = document.getElementById("cantidad").value;
 
-let hoy = new Date().toISOString().split("T")[0];
+let hoy = new Date();
 
-if(fecha !== hoy){
+let dia = String(hoy.getDate()).padStart(2,'0');
+let mes = String(hoy.getMonth()+1).padStart(2,'0');
+let anio = hoy.getFullYear();
+
+let fechaHoy = dia+"/"+mes+"/"+anio;
+
+if(fecha !== fechaHoy){
 
 alert("Solo se puede registrar asistencia en la sesión de hoy");
 return;
