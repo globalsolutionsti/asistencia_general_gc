@@ -1,4 +1,4 @@
-const API = "https://script.google.com/macros/s/AKfycbyLT8WVC_bImqgG9-SzYs3Fqj1CCGXjg8kTfpxSUsRVkqo370D2V1oy7NQjsCI6ZQc/exec";
+const API = "https://script.google.com/macros/s/AKfycbxkas5k129ttrTid2Hoek2PdGBdgmqYs8xmAD7CcuDYzqmpz6w4v_f6in7mj1g-w5pJ/exec";
 
 let pinGuardado = localStorage.getItem("pin");
 
