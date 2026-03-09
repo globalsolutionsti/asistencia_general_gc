@@ -1,5 +1,4 @@
 const API = "https://script.google.com/macros/s/AKfycbwHWaLXNoLrYKKilltXPRLvaQlVisw_fXSu1Jjx5kMsll8snWRq5vdkqqWwjwZDaL6S/exec";
-
 let pinGuardado = localStorage.getItem("pin");
 
 if(pinGuardado){
@@ -59,6 +58,7 @@ action:"sesiones"
 .then(data=>{
 
 let select = document.getElementById("sesion");
+
 select.innerHTML="";
 
 data.forEach(s=>{
@@ -66,7 +66,7 @@ data.forEach(s=>{
 let op = document.createElement("option");
 
 op.value = s.fecha;
-op.text = s.nombre+" ("+s.fecha+")";
+op.text = s.nombre + " ("+s.fecha+")";
 
 select.appendChild(op);
 
@@ -92,6 +92,7 @@ action:"grupos"
 .then(data=>{
 
 let select = document.getElementById("grupo");
+
 select.innerHTML="";
 
 data.forEach(g=>{
@@ -109,9 +110,10 @@ select.appendChild(op);
 
 }
 
-/* CAMBIO SESION */
+/* EVENTOS */
 
 document.getElementById("sesion").addEventListener("change",cargarAsistencia);
+document.getElementById("grupo").addEventListener("change",cargarAsistencia);
 
 /* CARGAR ASISTENCIA */
 
@@ -134,12 +136,12 @@ let grupo = document.getElementById("grupo").value;
 if(data[grupo]){
 
 document.getElementById("cantidad").value=data[grupo];
-document.getElementById("guardarBtn").innerText="Actualizar";
+document.getElementById("guardarBtn").innerText="ACTUALIZAR";
 
 }else{
 
 document.getElementById("cantidad").value="";
-document.getElementById("guardarBtn").innerText="Guardar";
+document.getElementById("guardarBtn").innerText="GUARDAR";
 
 }
 
@@ -182,14 +184,13 @@ cantidad:cantidad
 .then(r=>r.json())
 .then(data=>{
 
-if(data.status==="error"){
-
-alert(data.mensaje);
-return;
-
-}
-
 alert("Datos guardados correctamente");
+
+/* LIMPIAR CAMPO */
+document.getElementById("cantidad").value="";
+
+/* RECARGAR DATOS */
+cargarAsistencia();
 
 });
 
