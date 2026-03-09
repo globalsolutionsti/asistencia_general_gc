@@ -1,4 +1,4 @@
-const API = "https://script.google.com/macros/s/AKfycbyLT8WVC_bImqgG9-SzYs3Fqj1CCGXjg8kTfpxSUsRVkqo370D2V1oy7NQjsCI6ZQc/exec";
+const API = "https://script.google.com/macros/s/AKfycbx3W9IwoJCq7FyaGsJDTZCFf39zPcX8DPREdijP6Kz-5KFvblVsG_Hy052H9Q-JL_Xz/exec";
 
 let pinGuardado = localStorage.getItem("pin");
 
@@ -74,7 +74,7 @@ let select = document.getElementById("sesion");
 
 select.innerHTML="";
 
-data.forEach(s=>{
+data.sesiones.forEach(s=>{
 
 let op = document.createElement("option");
 
