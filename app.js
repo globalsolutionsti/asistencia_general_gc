@@ -246,3 +246,18 @@ cargarGrupos();
 });
 
 }
+function mostrarMensaje(texto,tipo){
+
+const msg=document.getElementById("mensajeSistema");
+
+msg.innerText=texto;
+
+msg.className="mensaje show "+tipo;
+
+setTimeout(()=>{
+
+msg.className="mensaje";
+
+},4000);
+
+}
