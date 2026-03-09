@@ -1,1 +1,49 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Asistencia GC</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div id="loginBox">
+
+<h2>Ingreso</h2>
+
+<input id="pin" type="password" placeholder="PIN">
+
+<button onclick="login()">Entrar</button>
+
+</div>
+
+
+<div id="appBox" style="display:none">
+
+<h2>Registro Asistencia</h2>
+
+<label>Sesion</label>
+<select id="sesion"></select>
+
+<label>Grupo Conexion</label>
+<select id="grupo"></select>
+
+<label>Asistencia</label>
+<input id="cantidad" type="number" placeholder="0">
+
+<button id="guardarBtn" onclick="guardar()">Guardar</button>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+
+</html>
