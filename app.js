@@ -232,7 +232,7 @@ cantidad:cantidad
 .then(r=>r.json())
 .then(data=>{
 
-alert("Datos guardados");
+mostrarMensaje("Datos guardados","success");
 
 /* LIMPIAR FORMULARIO */
 
